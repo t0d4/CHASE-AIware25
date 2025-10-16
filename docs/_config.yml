@@ -22,7 +22,8 @@ title: "CHASE: LLM Agents for Dissecting Complex Malware"
 email: "todatakaaki@nsl.cs.waseda.ac.jp"
 description: >- # this means to ignore newlines until "baseurl:"
   A high-reliability multi-agent system using a Plan-and-Execute model to detect malicious packages on PyPI. CHASE coordinates specialized agents for robust security analysis, overcoming common LLM weaknesses.
-baseurl: "/docs" # the subpath of your site, e.g. /blog
+domain: t0d4.github.io
+baseurl: "/CHASE-AIware25/docs" # the subpath of your site, e.g. /blog
 url: "https://t0d4.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: t0d4_
 github_username: t0d4
