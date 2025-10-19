@@ -18,7 +18,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: "CHASE: LLM Agents for Dissecting Complex Malware"
+title: "CHASE: LLM Agents for Dissecting Malicious PyPI Packages"
 email: "todatakaaki@nsl.cs.waseda.ac.jp"
 description: >- # this means to ignore newlines until "baseurl:"
   A high-reliability multi-agent system using a Plan-and-Execute model to detect malicious packages on PyPI. CHASE coordinates specialized agents for robust security analysis, overcoming common LLM weaknesses.
