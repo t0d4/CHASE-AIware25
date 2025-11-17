@@ -6,4 +6,4 @@ layout: default
 ---
 
 {: align="center"}
-:construction: This page is under construction :construction:
+:construction: This page is under construction. As we are still tidying up our code, we will upload the artifacts within November, 2025. :construction:
