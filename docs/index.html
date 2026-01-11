@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Primary Meta Tags -->
+  <title>CHASE: LLM Agents for Dissecting Malicious PyPI Packages</title>
+  <meta name="title" content="CHASE: LLM Agents for Dissecting Malicious PyPI Packages">
+  <meta name="description"
+    content="A high-reliability multi-agent system using Plan-and-Execute coordination to detect malicious packages on PyPI with 98.4% recall and 0.08% false positive rate.">
+  <meta name="keywords"
+    content="PyPI, malicious packages, LLM agents, multi-agent system, software supply chain security, malware detection, Python security">
+  <meta name="author" content="Takaaki Toda, Tatsuya Mori">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://t0d4.github.io/CHASE-AIware25/">
+  <meta property="og:title" content="CHASE: LLM Agents for Dissecting Malicious PyPI Packages">
+  <meta property="og:description"
+    content="A high-reliability multi-agent system for detecting malicious PyPI packages with 98.4% recall.">
+  <meta property="og:image" content="https://t0d4.github.io/CHASE-AIware25/static/images/social_preview.png">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://t0d4.github.io/CHASE-AIware25/">
+  <meta name="twitter:title" content="CHASE: LLM Agents for Dissecting Malicious PyPI Packages">
+  <meta name="twitter:description"
+    content="A high-reliability multi-agent system for detecting malicious PyPI packages with 98.4% recall.">
+  <meta name="twitter:image" content="https://t0d4.github.io/CHASE-AIware25/static/images/social_preview.png">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://t0d4.github.io/CHASE-AIware25/">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="static/images/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js"></script>
+
+  <!-- Structured Data for Academic Papers -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "CHASE: LLM Agents for Dissecting Malicious PyPI Packages",
+    "description": "A high-reliability multi-agent architecture that uses Plan-and-Execute coordination, specialized Worker Agents, and deterministic security tools to detect malicious packages on PyPI.",
+    "author": [
+      {
+        "@type": "Person",
+        "name": "Takaaki Toda",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Waseda University"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Tatsuya Mori",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Waseda University"
+        }
+      }
+    ],
+    "publisher": {
+      "@type": "Organization",
+      "name": "IEEE"
+    },
+    "datePublished": "2025"
+  }
+  </script>
+</head>
+
+<body>
+  <!-- Hero Section -->
+  <section class="hero is-light">
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <!-- Conference Badge -->
+        <span class="tag is-info is-medium mb-4"><a href="https://2025.aiwareconf.org/">AIware 2025</a></span>
+
+        <!-- Title -->
+        <h1 class="title is-1 publication-title">
+          CHASE: LLM Agents for Dissecting Malicious PyPI Packages
+        </h1>
+
+        <!-- Authors -->
+        <div class="is-size-5 publication-authors">
+          <span class="author-block">
+            <a href="mailto:todatakaaki@nsl.cs.waseda.ac.jp">Takaaki Toda</a><sup>1,2</sup>,
+          </span>
+          <span class="author-block">
+            <a href="https://nsl.cs.waseda.ac.jp/">Tatsuya Mori</a><sup>1,2,3</sup>
+          </span>
+        </div>
+
+        <!-- Affiliations -->
+        <div class="is-size-6 publication-authors mt-2">
+          <span class="author-block"><sup>1</sup>Waseda University,</span>
+          <span class="author-block"><sup>2</sup>RIKEN AIP,</span>
+          <span class="author-block"><sup>3</sup>NICT</span>
+        </div>
+
+        <!-- Links -->
+        <div class="buttons is-centered mt-5">
+          <a href="#" class="button is-dark is-rounded">
+            <span class="icon"><i class="fas fa-file-pdf"></i></span>
+            <span>Paper</span>
+          </a>
+          <a href="https://github.com/t0d4/CHASE-AIware25" class="button is-dark is-rounded" target="_blank">
+            <span class="icon"><i class="fab fa-github"></i></span>
+            <span>Code</span>
+          </a>
+          <!-- <a href="https://github.com/lxyeternal/pypi_malregistry" class="button is-dark is-rounded" target="_blank">
+            <span class="icon"><i class="fas fa-database"></i></span>
+            <span>Dataset</span>
+          </a> -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Key Results Highlight -->
+  <!-- Hiding for now to be a bit modest
+  <section class="section has-background-dark">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-10">
+          <div class="columns is-multiline has-text-centered">
+            <div class="column is-4">
+              <div class="highlight-box">
+                <p class="title is-1 is-spaced has-text-success">98.4%</p>
+                <p class="subtitle is-5 has-text-grey-light">Recall</p>
+              </div>
+            </div>
+            <div class="column is-4">
+              <div class="highlight-box">
+                <p class="title is-1 is-spaced has-text-info">0.08%</p>
+                <p class="subtitle is-5 has-text-grey-light">False Positive Rate</p>
+              </div>
+            </div>
+            <div class="column is-4">
+              <div class="highlight-box">
+                <p class="title is-1 is-spaced has-text-warning">4.5 min</p>
+                <p class="subtitle is-5 has-text-grey-light">Median Analysis Time</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section> -->
+
+  <!-- Abstract Section -->
+  <section class="section">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-10">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              Modern software package registries like PyPI have become critical infrastructure for software development,
+              but are increasingly exploited by threat actors distributing malicious packages with sophisticated
+              multi-stage
+              attack chains. While Large Language Models (LLMs) offer promising capabilities for automated code
+              analysis,
+              their application to security-critical malware detection faces fundamental challenges, including
+              <strong>hallucination</strong> and <strong>context confusion</strong>, which can lead to missed detections
+              or false alarms.
+            </p>
+            <p>
+              We present <strong>CHASE</strong> (<strong>C</strong>ollaborative <strong>H</strong>ierarchical
+              <strong>A</strong>gents
+              for <strong>S</strong>ecurity <strong>E</strong>xploration), a high-reliability multi-agent architecture
+              that addresses
+              these limitations through:
+            </p>
+            <ul>
+              <li>A <strong>Plan-and-Execute</strong> coordination model</li>
+              <li><strong>Specialized Worker Agents</strong> focused on specific analysis aspects</li>
+              <li>Integration with <strong>deterministic security tools</strong> for critical operations</li>
+            </ul>
+            <p>
+              Our key insight is that <em>reliability in LLM-based security analysis emerges not from improving
+                individual model
+                capabilities but from architecting systems that compensate for LLM weaknesses while leveraging their
+                semantic
+                understanding strengths</em>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why CHASE Section -->
+  <section class="section has-background-light">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-10">
+          <h2 class="title is-3">Why CHASE?</h2>
+          <div class="content">
+            <p>
+              Existing detection methods face a fundamental limitation: they can identify <em>where</em> suspicious code
+              exists,
+              but struggle to accurately explain <em>what</em> it actually does.
+            </p>
+
+            <!-- Comparison Table -->
+            <div class="table-container">
+              <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+                <thead>
+                  <tr>
+                    <th class="has-text-centered">Capability</th>
+                    <th class="has-text-centered"><a
+                        href="https://www.usenix.org/conference/usenixsecurity25/presentation/gao-xingan">MalGuard</a>
+                    </th>
+                    <th class="has-text-centered"><a href="https://github.com/DataDog/guarddog">GuardDog</a></th>
+                    <th class="has-text-centered"><strong>CHASE</strong></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="has-text-centered">Detection Performance</td>
+                    <td class="has-text-centered"><span class="tag is-success">Strong</span></td>
+                    <td class="has-text-centered"><span class="tag is-warning">Limited</span></td>
+                    <td class="has-text-centered"><span class="tag is-success">Strong</span></td>
+                  </tr>
+                  <tr>
+                    <td class="has-text-centered"><strong>Where is suspicious?</strong></td>
+                    <td class="has-text-centered"><span class="icon has-text-success"><i
+                          class="fas fa-check"></i></span></td>
+                    <td class="has-text-centered"><span class="icon has-text-success"><i
+                          class="fas fa-check"></i></span></td>
+                    <td class="has-text-centered"><span class="icon has-text-success"><i
+                          class="fas fa-check"></i></span></td>
+                  </tr>
+                  <tr>
+                    <td class="has-text-centered"><strong>What does it do?</strong></td>
+                    <td class="has-text-centered"><span class="icon has-text-danger"><i class="fas fa-times"></i></span>
+                    </td>
+                    <td class="has-text-centered"><span class="icon has-text-danger"><i class="fas fa-times"></i></span>
+                    </td>
+                    <td class="has-text-centered"><span class="icon has-text-success"><i
+                          class="fas fa-check"></i></span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <p>
+              CHASE actively <strong>deobfuscates layered payloads</strong> and <strong>retrieves remote
+                content</strong> to reveal
+              the attacker's true intent, producing high-fidelity, actionable reports that include:
+            </p>
+            <ul>
+              <li>Complete attack chain reconstruction</li>
+              <li>Attacker's ultimate goal</li>
+              <li>Indicators of Compromise (IoCs)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quantitative Results Section -->
+  <section class="section">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-10">
+          <h2 class="title is-3">Quantitative Results</h2>
+          <div class="content">
+            <p>
+              Evaluated on a dataset of <strong>3,000 real-world packages</strong> (500 malicious, 2,500 benign):
+            </p>
+
+            <div class="table-container">
+              <table class="table is-bordered is-striped is-hoverable">
+                <thead>
+                  <tr>
+                    <th class="has-text-centered">Method</th>
+                    <th class="has-text-centered">Precision</th>
+                    <th class="has-text-centered">Recall</th>
+                    <th class="has-text-centered">F1</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="has-text-centered"><a
+                        href="https://www.usenix.org/conference/usenixsecurity25/presentation/gao-xingan">MalGuard
+                        (RF)</a></td>
+                    <td class="has-text-centered">0.972</td>
+                    <td class="has-text-centered">0.922</td>
+                    <td class="has-text-centered">0.946</td>
+                  </tr>
+                  <tr>
+                    <td class="has-text-centered"><a href="https://github.com/DataDog/guarddog">GuardDog</a></td>
+                    <td class="has-text-centered">0.675</td>
+                    <td class="has-text-centered">0.854</td>
+                    <td class="has-text-centered">0.754</td>
+                  </tr>
+                  <tr class="is-selected">
+                    <td class="has-text-centered"><strong>CHASE (Ours)</strong></td>
+                    <td class="has-text-centered"><strong>0.996</strong></td>
+                    <td class="has-text-centered"><strong>0.984</strong></td>
+                    <td class="has-text-centered"><strong>0.990</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Architecture Section -->
+  <section class="section has-background-light">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-10">
+          <h2 class="title is-3">Architecture</h2>
+          <div class="content">
+            <p>
+              CHASE's design is inspired by how human security experts analyze malicious code. Professional analysts
+              dynamically
+              switch between <strong>exploratory activities</strong> (surveying code to form hypotheses, performed by
+              <strong>Supervisor</strong>) and
+              <strong>exploitative activities</strong> (focusing on specific tasks like deobfuscation, performed by
+              <strong>Workers</strong>).
+            </p>
+
+            <!-- Architecture Figure -->
+            <figure class="image">
+              <img src="static/images/figure1_architecture.png" size="60%" width="60%" alt="The multi-agent architecture of CHASE, using a Plan-and-Execute
+                    workflow and a Supervisor-Worker model.">
+            </figure>
+
+            <h3 class="title is-4 mt-5">Design Principles</h3>
+
+            <div class="columns is-multiline">
+              <div class="column is-12">
+                <div class="box">
+                  <h4 class="title is-5">
+                    <span class="icon has-text-info"><i class="fas fa-sitemap"></i></span>
+                    1. Supervisor-Worker Multi-Agent Architecture
+                  </h4>
+                  <p>
+                    A single <strong>Supervisor</strong> agent maintains the global analysis perspective, while
+                    specialized
+                    <strong>Worker</strong> agents execute domain-specific tasks:
+                  </p>
+                  <ul>
+                    <li><strong>Deobfuscator</strong>: Handles code deobfuscation, decryption, and safe execution</li>
+                    <li><strong>Web Researcher</strong>: Investigates external resources and queries threat intelligence
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="column is-12">
+                <div class="box">
+                  <h4 class="title is-5">
+                    <span class="icon has-text-success"><i class="fas fa-tasks"></i></span>
+                    2. Plan-and-Execute Workflow
+                  </h4>
+                  <p>
+                    Unlike reactive approaches (e.g., ReAct) that get trapped in repetitive failures, CHASE's Supervisor
+                    dynamically adjusts its analysis plan based on Worker results—crucial for malware analysis where
+                    outcomes
+                    are unpredictable.
+                  </p>
+                </div>
+              </div>
+
+              <div class="column is-12">
+                <div class="box">
+                  <h4 class="title is-5">
+                    <span class="icon has-text-warning"><i class="fas fa-shield-alt"></i></span>
+                    3. Reliability-Oriented Coordination
+                  </h4>
+                  <ul>
+                    <li><strong>State-Based Communication</strong>: Avoids context poisoning by maintaining all
+                      information in a central state variable</li>
+                    <li><strong>Minimal Toolsets</strong>: Each Worker has only the tools it needs, preventing cognitive
+                      overload</li>
+                    <li><strong>Budget-Aware Planning</strong>: Prevents infinite loops common in multi-agent systems
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Analysis Example Section -->
+  <section class="section">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-10">
+          <h2 class="title is-3">Analysis Example</h2>
+          <div class="content">
+            <p>
+              The following trace shows CHASE analyzing <code>libstrreplacecpu-7.3</code>, a malicious package that
+              downloads and executes a malicious executable via an obfuscated PowerShell command.
+            </p>
+
+            <!-- Analysis Trace Figure -->
+            <figure class="image">
+              <img src="static/images/figure3_analysis_trace.png" size="60%" width="60%"
+                alt="The analysis trace for libstrreplacecpu-7.3 as generated by CHASE.">
+            </figure>
+
+
+            <h3 class="title is-4 mt-5">Step-by-Step Analysis</h3>
+            <div class="timeline">
+              <div class="timeline-item">
+                <div class="timeline-marker is-success"></div>
+                <div class="timeline-content">
+                  <p class="heading">Step 1</p>
+                  <p><strong>Supervisor</strong> creates an initial plan after observing the raw source code</p>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-marker is-success"></div>
+                <div class="timeline-content">
+                  <p class="heading">Step 2</p>
+                  <p><strong>Supervisor</strong> delegates the obfuscated PowerShell command to
+                    <strong>Deobfuscator</strong>
+                  </p>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-marker is-warning"></div>
+                <div class="timeline-content">
+                  <p class="heading">Step 3</p>
+                  <p><strong>Deobfuscator</strong> decrypts the base64 payload, revealing a Dropbox download URL</p>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-marker is-success"></div>
+                <div class="timeline-content">
+                  <p class="heading">Step 4</p>
+                  <p><strong>Supervisor</strong> updates the plan based on the new finding</p>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-marker is-info"></div>
+                <div class="timeline-content">
+                  <p class="heading">Step 5</p>
+                  <p><strong>Web Researcher</strong> investigates the URL via VirusTotal — flagged by 7/63 vendors</p>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-marker is-info"></div>
+                <div class="timeline-content">
+                  <p class="heading">Step 6</p>
+                  <p><strong>Web Researcher</strong> investigates the author's email and suspicious domain</p>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-marker is-success"></div>
+                <div class="timeline-content">
+                  <p class="heading">Step 7</p>
+                  <p><strong>Supervisor</strong> compiles the final analysis report</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Generated Report -->
+            <h3 class="title is-4 mt-5">Generated Report</h3>
+            <details class="report-details">
+              <summary class="button is-info is-outlined is-fullwidth">
+                <span class="icon"><i class="fas fa-file-alt"></i></span>
+                <span>Click to expand the full generated report</span>
+              </summary>
+              <div id="chase-report-content-elm" class="report-content"></div>
+            </details>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Model Configuration Section -->
+  <section class="section has-background-light">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-10">
+          <h2 class="title is-3">Model Configuration</h2>
+          <div class="content">
+            <p>
+              CHASE employs a tiered hierarchy of <strong>local LLMs</strong> via
+              <a href="https://docs.sglang.ai/" target="_blank">SGLang</a> to balance capability with cost:
+            </p>
+
+            <div class="table-container">
+              <table class="table is-bordered is-striped is-hoverable">
+                <thead>
+                  <tr>
+                    <th>Role</th>
+                    <th>Model</th>
+                    <th>Purpose</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="tag is-success">Supervisor</span></td>
+                    <td><a href="https://huggingface.co/Qwen/Qwen3-32B">Qwen/Qwen3-32B</a></td>
+                    <td>Multi-step reasoning, plan orchestration</td>
+                  </tr>
+                  <tr>
+                    <td><span class="tag is-link is-light">Workers</span></td>
+                    <td><a href="https://huggingface.co/Qwen/Qwen3-8B">Qwen/Qwen3-8B</a></td>
+                    <td>Focused, domain-specific tasks</td>
+                  </tr>
+                  <tr>
+                    <td><span class="tag is-light">Formatter</span></td>
+                    <td><a href="https://huggingface.co/google/gemma-3-4b-it">google/gemma-3-4b-it</a></td>
+                    <td>JSON output conversion</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <p>
+              This configuration runs on a <strong>single NVIDIA H100 NVL</strong>, making it economically feasible
+              for continuous monitoring.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Expert Evaluation Section -->
+  <section class="section">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-10">
+          <h2 class="title is-3">Expert Evaluation</h2>
+          <div class="content">
+            <p>
+              We conducted a user study with <strong>three cybersecurity professionals</strong> (security strategist,
+              red team engineer, threat intelligence analyst) to evaluate report quality across five dimensions:
+            </p>
+
+            <div class="table-container">
+              <table class="table is-bordered is-striped is-hoverable">
+                <thead>
+                  <tr>
+                    <th>Dimension</th>
+                    <th class="has-text-centered">Benign</th>
+                    <th class="has-text-centered">Malicious 1</th>
+                    <th class="has-text-centered">Malicious 2</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Accuracy</td>
+                    <td class="has-text-centered">3.6</td>
+                    <td class="has-text-centered">3.8</td>
+                    <td class="has-text-centered">3.7</td>
+                  </tr>
+                  <tr>
+                    <td>Completeness</td>
+                    <td class="has-text-centered">2.9</td>
+                    <td class="has-text-centered">4.0</td>
+                    <td class="has-text-centered">4.2</td>
+                  </tr>
+                  <tr>
+                    <td>Clarity</td>
+                    <td class="has-text-centered">4.1</td>
+                    <td class="has-text-centered">3.9</td>
+                    <td class="has-text-centered">4.3</td>
+                  </tr>
+                  <tr>
+                    <td>Actionability</td>
+                    <td class="has-text-centered">3.1</td>
+                    <td class="has-text-centered">4.0</td>
+                    <td class="has-text-centered">3.8</td>
+                  </tr>
+                  <tr>
+                    <td>Reliability</td>
+                    <td class="has-text-centered">3.0</td>
+                    <td class="has-text-centered">4.0</td>
+                    <td class="has-text-centered">4.0</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="is-size-7 has-text-grey">
+              (5-point Likert scale: 1 = Strongly Disagree, 5 = Strongly Agree)
+            </p>
+
+            <h4 class="title is-5 mt-5">Key Findings</h4>
+            <div class="notification is-success is-light">
+              <p><span class="icon"><i class="fas fa-check-circle"></i></span> Strong ratings for
+                <strong>Completeness</strong> of threat overview and <strong>Clarity</strong> of terminology
+              </p>
+            </div>
+            <div class="notification is-danger is-light">
+              <p><span class="icon"><i class="fas fa-exclamation-triangle"></i></span> Tendency to over-assess risks in
+                benign code (generating overly cautious warnings)</p>
+            </div>
+            <div class="notification is-warning">
+              <p><span class="icon"><i class="fas fa-lightbulb"></i></span> Evaluations varied by professional role —
+                threat analysts rated highest, red team engineers requested more technical precision</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BibTeX Section -->
+  <section class="section has-background-light" id="bibtex">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-10">
+          <h2 class="title is-3">BibTeX</h2>
+          <div class="bibtex-container">
+            <button class="button is-small is-pulled-right copy-button" onclick="copyBibtex()">
+              <span class="icon"><i class="fas fa-copy"></i></span>
+              <span>Copy</span>
+            </button>
+            <pre id="bibtex-text"><code>@inproceedings{toda2025chase,
+  title        = {{CHASE}: {LLM} Agents for Dissecting Malicious {PyPI} Packages},
+  author       = {Takaaki Toda and Tatsuya Mori},
+  booktitle    = {Proceedings of the 2nd ACM International Conference on AI-Powered Software (AIware '25)},
+  series       = {AIware 2025},
+  year         = {2025},
+  date         = {2025-11-19/20},
+  address      = {Seoul, South Korea},
+  publisher    = {IEEE},
+  organization = {ACM and IEEE}<!-- doi          = {10.XXXX/aiware.2025.XXXXX}  % placeholder for future DOI -->
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Acknowledgments Section -->
+  <section class="section">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-10">
+          <h2 class="title is-3">Acknowledgments</h2>
+          <div class="content">
+            <p>
+              A part of this work is based on the results obtained from a project, JPNP24003, commissioned by the
+              New Energy and Industrial Technology Development Organization (NEDO).
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="content has-text-centered">
+        <p>
+          This page was built using the
+          <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project
+            Page Template</a>
+          which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+        </p>
+        <p>
+          This website is licensed under a
+          <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">
+            Creative Commons Attribution-ShareAlike 4.0 International License
+          </a>.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scroll to Top Button -->
+  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <!-- JavaScript -->
+  <script src="static/js/index.js"></script>
+</body>
+
+</html>
