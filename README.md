@@ -103,19 +103,19 @@ options:
 
 ### Examples
 
-- Analyze [libstrreplacecpu-7.3](/samples/libstrreplacecpu-7.3/) with CHASE, with the three LLMs powered by Ollama
+- Analyze [libstrreplacecpu-7.3](/samples/libstrreplacecpu-7.3.tar.gz) with CHASE, with the three LLMs powered by Ollama
   ```bash
   uv run run_chase.py --pkg-dirpath ./samples/libstrreplacecpu-7.3
   ```
 
-- Analyze [ethereim-1.0.0](/samples/ethereim-1.0.0/) with CHASE, with a single small LLM powered by Ollama
+- Analyze [ethereim-1.0.0](/samples/ethereim-1.0.0.tar.gz) with CHASE, with a single small LLM powered by Ollama
   ```bash
   uv run run_chase.py --low-memory-mode --pkg-dirpath ./samples/ethereim-1.0.0
   ```
 
-- Analyze [ethertoolz-0.8](/samples/ethertoolz-0.8/) with CHASE, with the three LLMs powered by SGLang
+- Analyze [ethertoolz-0.8](/samples/ethertoolz-0.8.tar.gz) with CHASE, with the three LLMs powered by SGLang
   ```bash
-  uv run run_chase.py --llm-runner sglang --pkg-dirpath ./samples/ethereim-1.0.0
+  uv run run_chase.py --llm-runner sglang --pkg-dirpath ./samples/ethertoolz-0.8
   ```
 
 
