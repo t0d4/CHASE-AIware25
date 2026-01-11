@@ -14,7 +14,7 @@
 
 While we have confirmed that these samples are no longer functional due to the deactivation of their attack infrastructure and are safe to handle, please note the following:
 
-- **We assumes no liability** for any damage arising from the execution or use of these files
+- **We assume no liability** for any damage arising from the execution or use of these files
 - Handle these samples **at your own risk**
 - **Malicious use of these samples is strictly prohibited**
 
