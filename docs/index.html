@@ -249,9 +249,9 @@
                   </tr>
                   <tr>
                     <td class="has-text-centered"><strong>What does it do?</strong></td>
-                    <td class="has-text-centered"><span class="icon has-text-danger"><i class="fas fa-times"></i></span>
+                    <td class="has-text-centered"><span class="icon has-text-dark">Conditional<sup>*</sup></span>
                     </td>
-                    <td class="has-text-centered"><span class="icon has-text-danger"><i class="fas fa-times"></i></span>
+                    <td class="has-text-centered"><span class="icon has-text-dark">Conditional<sup>*</sup></span>
                     </td>
                     <td class="has-text-centered"><span class="icon has-text-success"><i
                           class="fas fa-check"></i></span></td>
@@ -259,6 +259,12 @@
                 </tbody>
               </table>
             </div>
+            <p class="is-size-7 has-text-grey">
+              <sup>*</sup> MalGuard and GuardDog generate explanations by mapping detected function names to pre-written
+              descriptions. While useful, this provides a post-hoc summary of known suspicious patterns. In contrast,
+              CHASE actively intervenes on code by deobfuscating layered payloads and reasoning over analysis traces to
+              reveal the true intent.
+            </p>
 
             <p>
               CHASE actively <strong>deobfuscates layered payloads</strong> and <strong>retrieves remote
@@ -560,26 +566,28 @@ except: pass</code>
               <table class="table is-bordered is-striped is-hoverable">
                 <thead>
                   <tr>
-                    <th>Role</th>
-                    <th>Model</th>
-                    <th>Purpose</th>
+                    <th class="has-text-centered">Role</th>
+                    <th class="has-text-centered">Model</th>
+                    <th class="has-text-centered">Purpose</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td><span class="tag is-success">Supervisor</span></td>
-                    <td><a href="https://huggingface.co/Qwen/Qwen3-32B">Qwen/Qwen3-32B</a></td>
-                    <td>Multi-step reasoning, plan orchestration</td>
+                    <td class="has-text-centered"><span class="tag is-success">Supervisor</span></td>
+                    <td class="has-text-centered"><a href="https://huggingface.co/Qwen/Qwen3-32B">Qwen/Qwen3-32B</a>
+                    </td>
+                    <td class="has-text-centered">Multi-step reasoning, plan orchestration</td>
                   </tr>
                   <tr>
-                    <td><span class="tag is-link is-light">Workers</span></td>
-                    <td><a href="https://huggingface.co/Qwen/Qwen3-8B">Qwen/Qwen3-8B</a></td>
-                    <td>Focused, domain-specific tasks</td>
+                    <td class="has-text-centered"><span class="tag is-link is-light">Workers</span></td>
+                    <td class="has-text-centered"><a href="https://huggingface.co/Qwen/Qwen3-8B">Qwen/Qwen3-8B</a></td>
+                    <td class="has-text-centered">Focused, domain-specific tasks</td>
                   </tr>
                   <tr>
-                    <td><span class="tag is-light">Formatter</span></td>
-                    <td><a href="https://huggingface.co/google/gemma-3-4b-it">google/gemma-3-4b-it</a></td>
-                    <td>JSON output conversion</td>
+                    <td class="has-text-centered"><span class="tag is-light">Formatter</span></td>
+                    <td class="has-text-centered"><a
+                        href="https://huggingface.co/google/gemma-3-4b-it">google/gemma-3-4b-it</a></td>
+                    <td class="has-text-centered">JSON output conversion</td>
                   </tr>
                 </tbody>
               </table>
@@ -611,7 +619,7 @@ except: pass</code>
               <table class="table is-bordered is-striped is-hoverable">
                 <thead>
                   <tr>
-                    <th>Dimension</th>
+                    <th class="has-text-centered">Dimension</th>
                     <th class="has-text-centered">Benign</th>
                     <th class="has-text-centered">Malicious 1</th>
                     <th class="has-text-centered">Malicious 2</th>
@@ -619,31 +627,31 @@ except: pass</code>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Accuracy</td>
+                    <td class="has-text-centered">Accuracy</td>
                     <td class="has-text-centered">3.6</td>
                     <td class="has-text-centered">3.8</td>
                     <td class="has-text-centered">3.7</td>
                   </tr>
                   <tr>
-                    <td>Completeness</td>
+                    <td class="has-text-centered">Completeness</td>
                     <td class="has-text-centered">2.9</td>
                     <td class="has-text-centered">4.0</td>
                     <td class="has-text-centered">4.2</td>
                   </tr>
                   <tr>
-                    <td>Clarity</td>
+                    <td class="has-text-centered">Clarity</td>
                     <td class="has-text-centered">4.1</td>
                     <td class="has-text-centered">3.9</td>
                     <td class="has-text-centered">4.3</td>
                   </tr>
                   <tr>
-                    <td>Actionability</td>
+                    <td class="has-text-centered">Actionability</td>
                     <td class="has-text-centered">3.1</td>
                     <td class="has-text-centered">4.0</td>
                     <td class="has-text-centered">3.8</td>
                   </tr>
                   <tr>
-                    <td>Reliability</td>
+                    <td class="has-text-centered">Reliability</td>
                     <td class="has-text-centered">3.0</td>
                     <td class="has-text-centered">4.0</td>
                     <td class="has-text-centered">4.0</td>
@@ -686,7 +694,7 @@ except: pass</code>
               <span class="icon"><i class="fas fa-copy"></i></span>
               <span>Copy</span>
             </button>
-            <pre id="bibtex-text"><code>@inproceedings{toda2025chase,
+            <pre id="bibtex-text"><code class="language-tex">@inproceedings{toda2025chase,
   title        = {{CHASE}: {LLM} Agents for Dissecting Malicious {PyPI} Packages},
   author       = {Takaaki Toda and Tatsuya Mori},
   booktitle    = {Proceedings of the 2nd ACM International Conference on AI-Powered Software (AIware '25)},
