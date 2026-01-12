@@ -18,7 +18,7 @@ CHASE (Collaborative Hierarchical Agents for Security Exploration) is a high-rel
 .
 ├── docs/                       # Project Webpage Content
 ├── chase/
-│   ├── agents/
+│   ├── agents/                 # Worker agents
 │   │   ├── deobfuscator/       # Deobfuscator and its tools
 │   │   ├── web_researcher/     # Web Researcher and its tools
 │   │   └── __init__.py
@@ -43,6 +43,7 @@ CHASE (Collaborative Hierarchical Agents for Security Exploration) is a high-rel
 ### 2. Prepare Python virtual environment
 
 ```bash
+git clone https://github.com/t0d4/CHASE-AIware25.git
 cd /path/to/CHASE-AIware25
 uv sync
 ```
@@ -73,7 +74,7 @@ Serve models through OpenAI-compatible API
 ### 4. Configure CHASE
 
 1. Rename [.env.template](/.env.template) to .env
-2. Review the Web Researcher Configurations and modify them if necessary
+2. Open .env and review the Web Researcher Configurations and modify them if necessary
    - Paid services used during experiments are replaced or deactivated by default so that anyone can easily try out the implementation
      1. DuckDuckGo is subsistuted for Tavily
      2. VirusTotal Analysis Tool is deactivated by default
@@ -94,21 +95,23 @@ options:
                         setup.py is located
   --llm-runner {ollama,sglang}
                         llm runner to use to execute llm inference (default: ollama)
-  --low-memory-mode     use qwen3:4b powered by Ollama for all agents to reduce
-                        required memory (at the significant cost of performance)
+  --low-memory-mode     use small llms powered by Ollama to reduce required memory
+                        (at the SIGNIFICANT cost of performance)
 ```
 
 > [!NOTE]
-> When your system doesn't have much VRAM, utilize `--low-memory-mode` flag. This will reduce memory footprint by using the same small LLM for all agents, at the expense of analysis performance.
+> When your system doesn't have much VRAM, utilize `--low-memory-mode` flag. This will reduce memory footprint by using the small LLMs (qwen3:4b for the supervisor and workers, gemma3:4b for formatting), at the expense of analysis performance. Download them with `ollama pull` before using the flag.
 
 ### Examples
+
+Please extract the archive files in [samples directory](/samples) before executing the below commands.
 
 - Analyze [libstrreplacecpu-7.3](/samples/libstrreplacecpu-7.3.tar.gz) with CHASE, with the three LLMs powered by Ollama
   ```bash
   uv run run_chase.py --pkg-dirpath ./samples/libstrreplacecpu-7.3
   ```
 
-- Analyze [ethereim-1.0.0](/samples/ethereim-1.0.0.tar.gz) with CHASE, with a single small LLM powered by Ollama
+- Analyze [ethereim-1.0.0](/samples/ethereim-1.0.0.tar.gz) with CHASE, with small LLMs powered by Ollama
   ```bash
   uv run run_chase.py --low-memory-mode --pkg-dirpath ./samples/ethereim-1.0.0
   ```
