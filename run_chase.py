@@ -1,5 +1,6 @@
 import argparse
 import datetime
+import logging
 import re
 import textwrap
 from itertools import chain
@@ -18,14 +19,19 @@ def prepare_llms(
     llm_runner: Literal["ollama", "sglang"], low_memory_mode: bool
 ) -> tuple[BaseChatModel, BaseChatModel, BaseChatModel]:
     if low_memory_mode:
-        # use the same LLM for all roles to reduce required memory
-        llm = ChatOllama(
+        # use small LLMs to reduce required memory
+        agent_llm = ChatOllama(
             model="qwen3:4b",
             name="qwen3:4b",
             reasoning=True,
-            num_ctx=32768,  # lower this to further reduce the memory footprint
+            num_ctx=16384,  # NOTE: lower this to further reduce the memory footprint
         )
-        return llm, llm, llm
+        formatter_llm = ChatOllama(
+            model="gemma3:4b",
+            name="gemma3:4b",
+            num_ctx=4096,
+        )
+        return agent_llm, agent_llm, formatter_llm
     elif llm_runner == "ollama":
         supervisor_llm = ChatOllama(
             model="qwen3:32b",
@@ -42,7 +48,6 @@ def prepare_llms(
         formatter_llm = ChatOllama(
             model="gemma3:4b",
             name="gemma3:4b",
-            reasoning=True,
             num_ctx=8192,
         )
         return supervisor_llm, workers_llm, formatter_llm
@@ -189,13 +194,16 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--low-memory-mode",
-        help="use qwen3:4b powered by Ollama for all agents to reduce required memory (at the significant cost of performance)",
+        help="use small llms powered by Ollama to reduce required memory (at the SIGNIFICANT cost of performance)",
         action="store_true",
     )
     args = parser.parse_args()
 
+    # set default logging level for the root logger
+    logging.basicConfig(level=logging.INFO)
+
     # load configuration env vars
-    load_dotenv()
+    load_dotenv(verbose=True)
 
     # initialize CHASE
     supervisor_llm, workers_llm, formatter_llm = prepare_llms(
@@ -218,9 +226,9 @@ if __name__ == "__main__":
         print_mode="values",
     )
 
-    # save text analysis report and json-formatted analysis report in the package directory
+    # save markdown analysis report and json-formatted analysis report in the package directory
     with open(
-        args.pkg_dirpath / "text-final-summary.txt", "w"
+        args.pkg_dirpath / "text-final-summary.md", "w"
     ) as text_final_summary_file:
         text_final_summary_file.write(final_state["final_summary"])
     with open(
@@ -229,3 +237,4 @@ if __name__ == "__main__":
         text_final_summary_file.write(
             final_state["final_summary_structured"].model_dump_json()
         )
+    logging.info(f"Successfully saved the analysis report to {args.pkg_dirpath}")

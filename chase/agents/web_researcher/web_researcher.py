@@ -14,18 +14,6 @@ from chase.agents.web_researcher.mytools import (
 )
 from chase.state import DetectorAgentState
 
-# Create DuckDuckGo tool with cybersecurity-focused description
-ddg_search = DuckDuckGoSearchResults(
-    name="search_web_with_duckduckgo",
-    description=(
-        "CRITICAL tool to search the web for gathering threat intelligence and validating security findings. "
-        "Use this to search for: malware signatures, domain reputation, IOC reports, "
-        "security bulletins, and threat actor information. Input: specific security-focused search terms."
-    ),
-    num_results=5,
-    output_format="json",
-)
-
 
 def init_web_researcher_agent(
     model: BaseChatModel,
@@ -37,16 +25,27 @@ def init_web_researcher_agent(
         fetch_content_at_url,
         fetch_package_info_from_pypi,
     ]
-    match os.getenv("WEB_RESEARCHER_SEARCH_TOOL"):
+    match search_tool := os.getenv("WEB_RESEARCHER_SEARCH_TOOL"):
         case "tavily":
             tools.append(
                 TavilySearch(name="search_web_using_tavily", max_results=5),
             )
         case "duckduckgo":
-            tools.append(ddg_search)
+            tools.append(
+                DuckDuckGoSearchResults(
+                    name="search_web_with_duckduckgo",
+                    description=(
+                        "CRITICAL tool to search the web for gathering threat intelligence and validating security findings. "
+                        "Use this to search for: malware signatures, domain reputation, IOC reports, "
+                        "security bulletins, and threat actor information. Input: specific security-focused search terms."
+                    ),
+                    num_results=5,
+                    output_format="json",
+                )
+            )
         case _:
             raise ValueError(
-                "Environmental variable WEB_RESEARCHER_SEARCH_TOOL is not set or set to invalid value"
+                f"Environmental variable WEB_RESEARCHER_SEARCH_TOOL is not set or set to invalid value: {search_tool}"
             )
     use_virustotal_tool = os.getenv("WEB_RESEARCHER_USE_VIRUSTOTAL_TOOL") == "true"
     if use_virustotal_tool:
