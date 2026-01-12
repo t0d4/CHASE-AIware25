@@ -140,7 +140,6 @@ def get_refresh_plan_node(reasoning_llm: BaseChatModel, formatter_llm: BaseChatM
             goto=next_node,
             update={
                 "plan": plan.plan,
-                "remaining_steps": state.remaining_steps - 1,
                 "remaining_tasks": state.remaining_tasks - 1,
             },
             graph=None if next_node == "final_summarizer" else Command.PARENT,
