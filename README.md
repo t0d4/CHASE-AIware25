@@ -126,16 +126,13 @@ Please extract the archive files in [samples directory](/samples) before executi
 
 ```bibtex
 @inproceedings{toda2025CHASE,
-  author       = {Takaaki Toda and Tatsuya Mori},
-  title        = {{CHASE}: {LLM} Agents for Dissecting Malicious {PyPI} Packages},
-  booktitle    = {Proceedings of the 2nd ACM International Conference on AI-Powered Software (AIware '25)},
-  series       = {AIware 2025},
+  author       = {Toda, Takaaki and Mori, Tatsuya},
+  title        = {{ CHASE: LLM Agents for Dissecting Malicious PyPI Packages }},
+  booktitle    = {2025 2nd IEEE/ACM International Conference on AI-powered Software (AIware)},
+  pages        = {1-10},
   publisher    = {IEEE},
-  organization = {ACM and IEEE},
-  address      = {Seoul, South Korea},
   year         = {2025},
-  date         = {2025-11-19/20},
-  doi          = {10.48550/arXiv.2601.06838},
-  url          = {https://arxiv.org/abs/2601.06838}
+  doi          = {10.1109/AIware69974.2025.00008},
+  url          = {https://doi.ieeecomputersociety.org/10.1109/AIware69974.2025.00008},
 }
 ```
